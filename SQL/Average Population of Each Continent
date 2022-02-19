@@ -1,0 +1,1 @@
+SELECT CN.Continent, FLOOR(AVG(CT.Population)) FROM COUNTRY CN INNER JOIN CITY CT ON CN.Code = CT.CountryCode GROUP BY CN.Continent;
