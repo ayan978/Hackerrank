@@ -1,15 +1,15 @@
-WITH RankedOccupations AS (
+WITH OccupationsRanking AS (
     SELECT 
         Name,
         Occupation,
-        ROW_NUMBER() OVER (PARTITION BY Occupation ORDER BY Name) AS row_num
+        ROW_NUMBER() OVER (PARTITION BY Occupation ORDER BY Name) AS row_ranking
     FROM Occupations
 )
 SELECT 
-    MAX(CASE WHEN Occupation = 'Doctor' THEN Name END) AS Doctor,
-    MAX(CASE WHEN Occupation = 'Professor' THEN Name END) AS Professor,
-    MAX(CASE WHEN Occupation = 'Singer' THEN Name END) AS Singer,
-    MAX(CASE WHEN Occupation = 'Actor' THEN Name END) AS Actor
-FROM RankedOccupations
-GROUP BY row_num
-ORDER BY row_num;
+    MAX(CASE WHEN Occupation = 'Doctor' THEN Name ELSE NULL END) AS Doctor,
+    MAX(CASE WHEN Occupation = 'Professor' THEN Name ELSE NULL END) AS Professor,
+    MAX(CASE WHEN Occupation = 'Singer' THEN Name ELSE NULL END) AS Singer,
+    MAX(CASE WHEN Occupation = 'Actor' THEN Name ELSE NULL END) AS Actor
+FROM OccupationsRanking
+GROUP BY row_ranking
+ORDER BY row_ranking;
